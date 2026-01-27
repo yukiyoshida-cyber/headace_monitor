@@ -39,7 +39,7 @@ log機能: 頭痛レベルを記録し気圧/気圧変化/湿度との相関を�
 pythonのみでWindowsとAndroidの両プラットフォームで動作します
 
 <img src="https://github.com/user-attachments/assets/60137e2b-9661-4fc9-9f14-e02c6a9a255f" width=90%>
-<img src="https://github.com/user-attachments/assets/92534c6e-f387-440d-96f9-04d2f4b1b8f3" width=90%>
+<img src="https://github.com/user-attachments/assets/d524968d-3d89-46d9-9892-db2ca903478b" width=90%>
 
 <p align="right">(<a href="#top">トップへ</a>)</p>
 
