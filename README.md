@@ -64,9 +64,9 @@ headache_monitor/
 
 ## インストール
 - **Android**
-  - [Releases](../../releases)から Headache Monitor_Android.apk をダウンロード
+  - [Releases](../../releases)から headache_monitor_android_vx.x.x.apk をダウンロード
 - **Windows**
-  - [Releases](../../releases)から Headache Monitor_setup_windows.zip をダウンロード
+  - [Releases](../../releases)から headache_monitor_windows_vx.x.x.zip をダウンロード
   - setup.exeを実行
 <p align="right">(<a href="#top">トップへ</a>)</p>
 
