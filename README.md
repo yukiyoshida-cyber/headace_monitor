@@ -38,8 +38,8 @@ graph機能: 指定期間の気圧/湿度を取得しPlotlyでインタラクテ
 log機能: 頭痛レベルを記録し気圧/気圧変化/湿度との相関を分析しMatplotlibでグラフによる可視化<br>
 pythonのみでWindowsとAndroidの両プラットフォームで動作します
 
-<img src="https://img.shields.io/badge/-React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB" width=45%>  <img src="https://img.shields.io/badge/-Nginx-269539.svg?logo=nginx&style=for-the-badge" width=45%>
-<img src="https://img.shields.io/badge/-Node.js-000000.svg?logo=node.js&style=for-the-badge" width=45%>  <img src="https://img.shields.io/badge/-Next.js-000000.svg?logo=next.js&style=for-the-badge" width=45%>
+<img src="https://github.com/user-attachments/assets/60137e2b-9661-4fc9-9f14-e02c6a9a255f"  width=80%>
+<img src="https://github.com/user-attachments/assets/92534c6e-f387-440d-96f9-04d2f4b1b8f3" width=80%>
 
 <p align="right">(<a href="#top">トップへ</a>)</p>
 
