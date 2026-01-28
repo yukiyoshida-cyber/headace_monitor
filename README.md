@@ -36,7 +36,7 @@
 頭痛と気象情報をモニターし相関分析することで頭痛予測をお手伝いします<br>
 graph機能: 指定期間の気圧/湿度を取得しPlotlyでインタラクティブなグラフを作成<br>
 log機能: 頭痛レベルを記録し気圧/気圧変化/湿度との相関を分析しMatplotlibでグラフによる可視化<br>
-pythonのみでWindowsとAndroidの両プラットフォームで動作します
+PythonのみでWindowsとAndroidの両プラットフォームで動作します
 
 <img src="https://github.com/user-attachments/assets/60137e2b-9661-4fc9-9f14-e02c6a9a255f" width=90%>
 <img src="https://github.com/user-attachments/assets/4609419f-d0d5-46b9-a6f6-24963bc32b2a" width=90%>
