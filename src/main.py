@@ -9,6 +9,7 @@ import kivy
 from kivymd.app import MDApp
 from kivymd.icon_definitions import md_icons
 from kivy.lang import Builder
+from kivy.metrics import dp
 from kivy.uix.tabbedpanel import TabbedPanel, TabbedPanelItem
 
 import os, certifi
@@ -19,7 +20,7 @@ import weather_graph, headache_log
 
 Builder.load_string("""
 <TabbedPanelItem>:
-    font_size: "10sp"
+    font_size: dp(10)
     font_name: "assets/NotoSansJP.ttf"
     color: 0.59, 0.59, 0.59, 1
     background_color: 0.25, 0.25, 0.25, 1 
@@ -29,8 +30,8 @@ Builder.load_string("""
 <RootTabbedPanel>:
     do_default_tab: False
     tab_pos: "top_left"
-    tab_height: 30 
-    tab_width: 70
+    tab_height: dp(30) 
+    tab_width: dp(70)
 
     canvas.before:
         Color:

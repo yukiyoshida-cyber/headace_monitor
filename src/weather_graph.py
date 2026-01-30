@@ -6,6 +6,7 @@ from kivy.core.text import LabelBase, DEFAULT_FONT
 from kivy.core.window import Window
 from kivy.graphics import Color, Rectangle
 from kivy.lang import Builder
+from kivy.metrics import dp
 from kivy.properties import ObjectProperty, NumericProperty, StringProperty
 from kivy.uix.behaviors import ButtonBehavior
 from kivy.uix.boxlayout import BoxLayout
@@ -156,7 +157,7 @@ def create_plotly_figure(
             y=humidity_y, 
             mode="lines", 
             name="", 
-            line=dict(color="#18ace6"), 
+            line=dict(color="#18AEC6"), 
             hovertemplate="%{y} %", 
         ), 
         secondary_y=False, 
@@ -168,7 +169,7 @@ def create_plotly_figure(
             mode="lines", 
             name="", 
             customdata=pressure_msl_change, 
-            line=dict(color="#e77032"), 
+            line=dict(color="#E77032"), 
             hovertemplate="%{y} hPa<br>%{customdata}", 
         ), 
         secondary_y=True, 
@@ -272,11 +273,19 @@ def get_plot_image_bytes(fig):
     else:
         fig.write_html(html_filepath)
         buf=io. BytesIO()
-        fig.update_layout(title_font=dict(size=28))
-        fig.update_xaxes(tickformat="%m/%d \n%H:%M", tickfont=dict(size=18))
-        fig.update_yaxes(secondary_y=False, tickfont=dict(size=20))
-        fig.update_yaxes(secondary_y=True, tickfont=dict(size=20))
-        fig.write_image(buf, format="png", width=750, height=750)
+        fig.update_layout(title_font=dict(size=dp(28)), margin=dict(t=dp(80)))
+        fig.update_xaxes(tickformat="%m/%d \n%H:%M", tickfont=dict(size=dp(18)))
+        fig.update_yaxes(
+            secondary_y=False, 
+            title_font=dict(size=dp(20)), 
+            tickfont=dict(size=dp(20)), 
+        )
+        fig.update_yaxes(
+            secondary_y=True, 
+            title_font=dict(size=dp(20)), 
+            tickfont=dict(size=dp(20)), 
+        )
+        fig.write_image(buf, format="png", width=dp(750), height=dp(750))
         buf.seek(0)
         return [buf.getvalue(), html_filepath]
 
@@ -284,9 +293,9 @@ kivy.require("2.3.0")
 
 Builder.load_string(f"""
 <SpinnerOption>:
-    font_size:"12px"
+    font_size:dp(12)
     size_hint_y: None
-    height: 30
+    height: dp(30)
 """)
 
 class weather_graphApp(MDApp):
@@ -326,13 +335,13 @@ class weather_graphApp(MDApp):
         return self.root
 
     def delayed_init(self, dt):
-        main_layout=BoxLayout(orientation="vertical", padding=5)
+        main_layout=BoxLayout(orientation="vertical", padding=dp(5))
         with main_layout.canvas.before:
             Color(*self.bg_color)
             self.rect=Rectangle(size=main_layout.size, pos=main_layout.pos)
         main_layout.bind(size=self._update_rect, pos=self._update_rect)        
 #---------------------------------------境界線border---------------------------------------
-        border_frame=Widget(size_hint_y=None, height=1)
+        border_frame=Widget(size_hint_y=None, height=dp(1))
         with border_frame.canvas:
             Color(*self.fg_color)
             self.border_rect=Rectangle(
@@ -344,17 +353,17 @@ class weather_graphApp(MDApp):
         gain_layout=BoxLayout(
             orientation="horizontal", 
             size_hint_y=None, 
-            height=55, 
-            padding=(0, 3, 0, 0), 
+            height=dp(55), 
+            padding=(0, dp(3), 0, 0), 
         )
         gain_label=Label(
             text="情報取得期間", 
-            font_size="12px", 
+            font_size=dp(12), 
             color=self.fg_color, 
             halign="left", 
             padding=0, 
             size_hint=(None,1), 
-            width=100, 
+            width=dp(100), 
         )
         gain_layout.add_widget(gain_label)
         gain_right_frame=BoxLayout(orientation="vertical")
@@ -363,16 +372,16 @@ class weather_graphApp(MDApp):
         gain_term_frame=BoxLayout(
             orientation="horizontal", 
             size_hint=(None, 0.5), 
-            size=(300, 25), 
-            padding=(35, 0), 
+            size=(dp(300), dp(25)), 
+            padding=(dp(35), 0), 
             pos_hint={"center_x": 0.5}, 
         )
         self.gain_start_entry=TextInput(
             multiline=False, 
-            font_size="12px", 
-            padding=(0, 3, 0, 0), 
+            font_size=dp(12), 
+            padding=(0, dp(3), 0, 0), 
             size_hint=(None, None), 
-            size=(100, 25), 
+            size=(dp(100), dp(25)), 
             halign="center", 
             foreground_color=self.fg_color, 
             background_color=self.bg_color, 
@@ -381,17 +390,17 @@ class weather_graphApp(MDApp):
         self.gain_start_entry.text=self.gain_start_date_str
         term_label=Label(
             text="~", 
-            font_size="15px",  
+            font_size=dp(15),  
             color=self.fg_color, 
             size_hint_x=None, 
-            width=20, 
+            width=dp(20), 
         )
         self.gain_end_entry=TextInput(
             multiline=False, 
-            font_size="12px", 
-            padding=(0, 3, 0, 0), 
+            font_size=dp(12), 
+            padding=(0, dp(3), 0, 0), 
             size_hint=(None, None), 
-            size=(100, 25), 
+            size=(dp(100), dp(25)), 
             halign="center", 
             foreground_color=self.fg_color, 
             background_color=self.bg_color, 
@@ -405,29 +414,29 @@ class weather_graphApp(MDApp):
         gain_scales_frame=BoxLayout(
             orientation="horizontal", 
             size_hint=(None, 0.5), 
-            size=(300, 25), 
-            padding=(20, 0), 
+            size=(dp(300), dp(25)), 
+            padding=(dp(20), 0), 
             pos_hint={"center_x": 0.5}, 
         )
         self.gain_start_label=Label(
             text=str(self.gain_start_var), 
-            font_size="12px", 
+            font_size=dp(12), 
             color=self.fg_color, 
             size_hint_x=None, 
-            width=3, 
+            width=dp(3), 
         )
         self.gain_start_range=Slider(
             min=-30, 
             max=-1, 
             value=self.gain_start_var, 
-            cursor_height=15, 
-            cursor_width=15, 
+            cursor_height=dp(15), 
+            cursor_width=dp(15), 
             size_hint_x=None, 
-            width=120, 
-            padding=10, 
+            width=dp(120), 
+            padding=dp(10), 
         )
         self.gain_start_range.bind(value=self.update_gain_start)
-        gain_space_label=Label(text="", size_hint_x=None, width=2) 
+        gain_space_label=Label(text="", size_hint_x=None, width=dp(2)) 
         gain_scales_frame.add_widget(self.gain_start_label)
         gain_scales_frame.add_widget(self.gain_start_range)
         gain_scales_frame.add_widget(gain_space_label)
@@ -435,19 +444,19 @@ class weather_graphApp(MDApp):
             min=1, 
             max=16, 
             value=self.gain_end_var, 
-            cursor_height=15, 
-            cursor_width=15, 
+            cursor_height=dp(15), 
+            cursor_width=dp(15), 
             size_hint_x=None, 
-            width=120, 
-            padding=10, 
+            width=dp(120), 
+            padding=dp(10), 
         )
         self.gain_end_range.bind(value=self.update_gain_end)
         self.gain_end_label=Label(
             text=str(self.gain_end_var), 
-            font_size="12px", 
+            font_size=dp(12), 
             color=self.fg_color, 
             size_hint_x=None, 
-            width=3, 
+            width=dp(3), 
         )
         gain_scales_frame.add_widget(self.gain_end_range)
         gain_scales_frame.add_widget(self.gain_end_label)
@@ -455,7 +464,7 @@ class weather_graphApp(MDApp):
         gain_layout.add_widget(gain_right_frame)
         main_layout.add_widget(gain_layout)
 #---------------------------------------境界線border---------------------------------------
-        border_frame2=Widget(size_hint_y=None, height=1)
+        border_frame2=Widget(size_hint_y=None, height=dp(1))
         with border_frame2.canvas:
             Color(*self.fg_color)
             self.border_rect2=Rectangle(size=border_frame2.size)
@@ -464,16 +473,16 @@ class weather_graphApp(MDApp):
         monitor_layout=BoxLayout(
             orientation="horizontal", 
             size_hint_y=None, 
-            height=60, 
+            height=dp(60), 
         )
         monitor_label=Label(
             text="初期表示期間", 
-            font_size="12px", 
+            font_size=dp(12), 
             color=self.fg_color, 
             halign="left", 
             padding=0, 
             size_hint=(None, 1), 
-            width=100,
+            width=dp(100),
         )
         monitor_layout.add_widget(monitor_label)
         monitor_right_frame=BoxLayout(orientation="vertical")
@@ -482,15 +491,16 @@ class weather_graphApp(MDApp):
         monitor_term_frame=BoxLayout(
             orientation="horizontal", 
             size_hint=(None, None),  
-            size=(300, 20), padding=(35, 0),  
+            size=(dp(300), dp(20)), 
+            padding=(dp(35), 0), 
             pos_hint={"center_x": 0.5}, 
         )
         self.monitor_start_entry=TextInput( 
             multiline=False,  
-            font_size="12px",  
-            padding=(0, 3, 0, 0),  
+            font_size=dp(12),  
+            padding=(0, dp(3), 0, 0),  
             size_hint=(None, None),  
-            size=(100, 25),  
+            size=(dp(100), dp(25)),  
             halign="center",  
             foreground_color=self.fg_color,  
             background_color=self.bg_color, 
@@ -499,17 +509,17 @@ class weather_graphApp(MDApp):
         self.monitor_start_entry.text=self.monitor_start_date_str
         term_label=Label( 
             text="~",  
-            font_size="15px",  
+            font_size=dp(15),  
             color=self.fg_color,  
             size_hint_x=None,  
-            width=20, 
+            width=dp(20), 
         )
         self.monitor_end_entry=TextInput( 
             multiline=False,  
-            font_size="12px",  
-            padding=(0, 3, 0, 0),  
+            font_size=dp(12),  
+            padding=(0, dp(3), 0, 0),  
             size_hint=(None, None),  
-            size=(100, 25),  
+            size=(dp(100), dp(25)),  
             halign="center",  
             foreground_color=self.fg_color,  
             background_color=self.bg_color, 
@@ -523,29 +533,29 @@ class weather_graphApp(MDApp):
         monitor_scales_frame=BoxLayout( 
             orientation="horizontal",  
             size_hint=(None, None),  
-            size=(300, 25), 
-            padding=(20, 0),  
+            size=(dp(300), dp(25)), 
+            padding=(dp(20), 0),  
             pos_hint={"center_x": 0.5}, 
         )
         self.monitor_start_label=Label(
             text=str(self.monitor_start_var), 
-            font_size="12px", 
+            font_size=dp(12), 
             color=self.fg_color, 
             size_hint_x=None, 
-            width=3, 
+            width=dp(3), 
         )
         self.monitor_start_range=Slider(
             min=-7, 
             max=-1, 
             value=self.monitor_start_var, 
-            cursor_height=15, 
-            cursor_width=15, 
+            cursor_height=dp(15), 
+            cursor_width=dp(15), 
             size_hint_x=None, 
-            width=120, 
-            padding=10, 
+            width=dp(120), 
+            padding=dp(10), 
         )
         self.monitor_start_range.bind(value=self.update_monitor_start)
-        monitor_space_label=Label(text="", size_hint_x=None, width=2) 
+        monitor_space_label=Label(text="", size_hint_x=None,  width=dp(2)) 
         monitor_scales_frame.add_widget(self.monitor_start_label)
         monitor_scales_frame.add_widget(self.monitor_start_range)
         monitor_scales_frame.add_widget(monitor_space_label)
@@ -553,19 +563,19 @@ class weather_graphApp(MDApp):
             min=1, 
             max=7, 
             value=self.monitor_end_var, 
-            cursor_height=15, 
-            cursor_width=15, 
+            cursor_height=dp(15), 
+            cursor_width=dp(15), 
             size_hint_x=None, 
-            width=120, 
-            padding=10, 
+            width=dp(120), 
+            padding=dp(10), 
         )
         self.monitor_end_range.bind(value=self.update_monitor_end)
         self.monitor_end_label=Label(
             text=str(self.monitor_end_var), 
-            font_size="12px", 
+            font_size=dp(12), 
             color=self.fg_color, 
             size_hint_x=None, 
-            width=3, 
+            width=dp(3), 
         )
         monitor_scales_frame.add_widget(self.monitor_end_range)
         monitor_scales_frame.add_widget(self.monitor_end_label)
@@ -573,7 +583,7 @@ class weather_graphApp(MDApp):
         monitor_layout.add_widget(monitor_right_frame)
         main_layout.add_widget(monitor_layout)
 #---------------------------------------境界線border---------------------------------------
-        border_frame3=Widget(size_hint_y=None, height=1)
+        border_frame3=Widget(size_hint_y=None, height=dp(1))
         with border_frame3.canvas:
             Color(*self.fg_color)
             self.border_rect3=Rectangle(size=border_frame3.size)
@@ -582,22 +592,22 @@ class weather_graphApp(MDApp):
         location_layout=BoxLayout(
             orientation="horizontal", 
             size_hint_y=None, 
-            height=45, 
-            padding=(0, 10, 0, 0), 
+            height=dp(45), 
+            padding=(0, dp(10), 0, 0), 
         )        
         location_label=Label(
             text="場所", 
-            font_size="12px", 
+            font_size=dp(12), 
             color=self.fg_color,  
             halign="left", 
             padding=0, 
             size_hint=(None, 1), 
-            width=100, 
+            width=dp(100), 
         )
         location_layout.add_widget(location_label)
         location_spinner_wrapper=BoxLayout(
             orientation="horizontal", 
-            padding=(0, 10, 0, 0), 
+            padding=(0, dp(10), 0, 0), 
         )
         location_spinner_wrapper=RelativeLayout()
         self.combo_var_value=self.location_name_list[0]
@@ -605,9 +615,9 @@ class weather_graphApp(MDApp):
             text=self.combo_var_value, 
             values=self.location_name_list, 
             size_hint=(None, None), 
-            size=(200, 35), 
+            size=(dp(200), dp(35)), 
             pos_hint={"center_x": 0.5}, 
-            font_size="12px", 
+            font_size=dp(12), 
         )
         self.location_spinner.color=self.fg_color
         self.location_spinner.background_color=self.bg_color
@@ -615,7 +625,7 @@ class weather_graphApp(MDApp):
         location_layout.add_widget(location_spinner_wrapper)
         main_layout.add_widget(location_layout)
 #---------------------------------------境界線border---------------------------------------
-        border_frame4=Widget(size_hint_y=None, height=1)
+        border_frame4=Widget(size_hint_y=None, height=dp(1))
         with border_frame4.canvas:
             Color(*self.fg_color)
             self.border_rect4=Rectangle(size=border_frame4.size)
@@ -624,18 +634,18 @@ class weather_graphApp(MDApp):
         update_layout=BoxLayout(
             orientation="vertical", 
             size_hint_y=None, 
-            height=55, 
-            padding=(0, 10, 0, 0), 
+            height=dp(55), 
+            padding=(0, dp(10), 0, 0), 
         )
         self.update_button=Button(
             text="更新", 
-            font_size="12px", 
+            font_size=dp(12), 
             background_normal="", 
             background_down="", 
             background_color=(1, 1, 1, 0.1), 
             color=self.fg_color, 
             size_hint=(None, None), 
-            size=(150, 35),
+            size=(dp(150), dp(35)),
             pos_hint={"center_x": 0.5}, 
             halign="center", valign="middle", 
         )
@@ -644,10 +654,10 @@ class weather_graphApp(MDApp):
         self.kivy_view=None
         self.err_text=Label(
             text="", 
-            font_size="10px", 
+            font_size=dp(10), 
             color=self.er_color, 
             size_hint_x=None, 
-            width=150, 
+            width=dp(150), 
             pos_hint={"center_x": 0.5}, 
         )
         update_layout.add_widget(self.err_text)
@@ -656,10 +666,10 @@ class weather_graphApp(MDApp):
         self.graph_layout=BoxLayout(
             orientation="vertical", 
             padding=0, 
-            spacing=10, 
+            spacing=dp(10), 
         )
         main_layout.add_widget(self.graph_layout)
-        self.status_label=Label(text="", font_size="30")
+        self.status_label=Label(text="", font_size=dp(30))
         self.texts=["", ".", "..", "..."]
         self.current_index=0
         self.event=None
@@ -670,22 +680,22 @@ class weather_graphApp(MDApp):
         self.rect.size=instance.size
         self.border_rect.pos=(
             instance.pos[0], 
-            instance.pos[1]+instance.size[1]-5
+            instance.pos[1]+instance.size[1]-dp(5)
         )
         self.border_rect.size=(instance.size[0], 1)
         self.border_rect2.pos=(
             instance.pos[0], 
-            instance.pos[1]+instance.size[1]-65
+            instance.pos[1]+instance.size[1]-dp(65)
         )
         self.border_rect2.size=(instance.size[0], 1)
         self.border_rect3.pos=(
             instance.pos[0], 
-            instance.pos[1]+instance.size[1]-125
+            instance.pos[1]+instance.size[1]-dp(125)
         )
         self.border_rect3.size=(instance.size[0], 1)
         self.border_rect4.pos=(
             instance.pos[0], 
-            instance.pos[1]+instance.size[1]-175
+            instance.pos[1]+instance.size[1]-dp(175)
         )
         self.border_rect4.size=(instance.size[0], 1)
 
@@ -882,13 +892,13 @@ class weather_graphApp(MDApp):
             self.graph_layout.add_widget(self.plot_image_widget)
             self.detail_button=Button(
                 text="詳細(ブラウザ)", 
-                font_size="12px", 
+                font_size=dp(12), 
                 background_normal="", 
                 background_down="", 
                 background_color=(1, 1, 1, 0.1), 
                 color=self.fg_color, 
                 size_hint_y=None, 
-                height=35, 
+                height=dp(35), 
                 pos_hint={"center_x": 0.5}, 
                 on_press=self.open_plotly_html, 
             )

@@ -13,6 +13,7 @@ from kivy.core.window import Window
 from kivy.graphics import Color, Rectangle
 from kivy.lang import Builder
 from kivy.lang.builder import Builder
+from kivy.metrics import dp
 from kivy.properties import ObjectProperty, NumericProperty, StringProperty
 from kivy.uix.anchorlayout import AnchorLayout
 from kivy.uix.behaviors import ButtonBehavior
@@ -78,27 +79,27 @@ def create_plotly_figure(stamp_df):
     ax.set_ylabel(
         "correlation coefficient vs. headache", 
         color="#979797", 
-        fontsize=9, 
+        fontsize=dp(9), 
     )
     ax.set_ylim(-1.0, 1.0)
     ax.grid(axis="y")
     ax.set_xticks(
         ticks=[0, 1, 2], 
         labels=["pressure[hPa]", "humidity[%]", "pressure change[hPa/h]"], 
-        rotation=10, 
+        rotation=dp(10), 
     )
-    ax.bar_label(container, fmt="{:.2f}", color="#979797", fontsize=10)
+    ax.bar_label(container, fmt="{:.2f}", color="#979797", fontsize=dp(10))
     ax.tick_params(
         axis="x", 
         color="#404040", 
         labelcolor="#979797", 
-        labelsize=9, 
+        labelsize=dp(9), 
     )
     ax.tick_params(
         axis="y", 
         color="#404040", 
         labelcolor="#979797", 
-        labelsize=8, 
+        labelsize=dp(8), 
     )
     ax.spines["bottom"].set_color("#303030")
     ax.spines["left"].set_color("#303030")
@@ -135,7 +136,7 @@ def create_plotly_figure(stamp_df):
         stamp_df["pressure change"], 
         c=colors2, 
         marker="o", 
-        s=15, 
+        s=dp(15), 
     )
     if len(stamp_df) == 1:
         ax2.set_ylim(stamp_df["pressure"].iloc[0]-1.3, stamp_df["pressure"].iloc[0]+1.3)
@@ -162,15 +163,15 @@ kivy.require("2.3.0")
 
 Builder.load_string(f"""
 <SpinnerOption>:
-    font_size:"12px"
+    font_size:dp(12)
     size_hint_y: None
-    height: "30"
+    height: dp(30)
 
 <LastRow>:
     orientation: "horizontal"
     size_hint_x: 1
     size_hint_y: None
-    height: "15dp"
+    height: dp(15)
     md_bg_color: [0.25, 0.25, 0.25, 1]
 
     MDLabel:
@@ -181,7 +182,7 @@ Builder.load_string(f"""
         text: " [全データ読込]"
         size_hint_x: 4
         halign: "left"
-        font_size: "8dp"
+        font_size: dp(8)
         pos_hint: {{"center_y": .5}}
         theme_text_color: "Custom"
         text_color: [0.59, 0.59, 0.59, 1] 
@@ -200,7 +201,7 @@ Builder.load_string(f"""
             size_hint: 0.8, 0.3
             pos_hint: {{"x": 0.1, "y":0.85}}
             text: root.message
-            font_size: "12px"
+            font_size: dp(12)
             halign: "center"
         BoxLayout:
             orientation: "horizontal"
@@ -209,26 +210,26 @@ Builder.load_string(f"""
             Label:
                 size_hint_x: 0.2
                 text: "Lv: " + str(int(text_input_field.value))
-                font_size: "12px"
+                font_size: dp(12)
             Slider:
                 id: text_input_field
                 size_hint_x: 0.8
                 min: 0
                 max: 5.9
                 value: 3
-                cursor_height: 15
-                cursor_width: 15
+                cursor_height: dp(15)
+                cursor_width: dp(15)
         Button:
             size_hint: 0.4, 0.2
             pos_hint: {{"x":0.1, "y":0.25}}
             text: "OK"
-            font_size: "12px"
+            font_size: dp(12)
             on_release: root.dispatch("on_yes", root.ids.text_input_field.value) 
         Button:
             size_hint: 0.4, 0.2
             pos_hint: {{"x":0.5, "y":0.25}}
             text: "Cancel"
-            font_size: "12px"
+            font_size: dp(12)
             on_release: root.dispatch("on_no")
 
 <OkCancelPopup>:
@@ -241,19 +242,19 @@ Builder.load_string(f"""
             size_hint: 0.8, 0.3
             pos_hint: {{"x": 0.1, "y":0.7}}
             text: root.message
-            font_size: "12px"
+            font_size: dp(12)
             halign: "center"
         Button:
             size_hint: 0.4, 0.2
             pos_hint: {{"x":0.1, "y":0.25}}
             text: "OK"
-            font_size: "12px"
+            font_size: dp(12)
             on_release: root.dispatch("on_yes")
         Button:
             size_hint: 0.4, 0.2
             pos_hint: {{"x":0.5, "y":0.25}}
             text: "Cancel"
-            font_size: "12px"
+            font_size: dp(12)
             on_release: root.dispatch("on_no")
 
 <OkPopup>:
@@ -266,13 +267,13 @@ Builder.load_string(f"""
             size_hint: 0.8, 0.3
             pos_hint: {{"x": 0.1, "y":0.65}}
             text: root.message
-            font_size: "12px"
+            font_size: dp(12)
             halign: "center"
         Button:
             size_hint: 0.4, 0.2
             pos_hint: {{"x":0.3, "y":0.25}}
             text: "OK"
-            font_size: "12px"
+            font_size: dp(12)
             on_release: root.dispatch("on_no")
 """)
 
@@ -354,11 +355,11 @@ class LastRow(MDBoxLayout):
         self.app.inner_grid.add_widget(
             Label(
                 text="読み込み中...", 
-                font_size="12px", 
+                font_size=dp(12), 
                 color=self.app.fg_color, 
                 halign="center", 
                 size_hint_y=None, 
-                height=100, 
+                height=dp(100), 
             ), 
         )
         Clock.schedule_once(lambda dt: self.app.update_table(self.app.stamp_df), 0.1)
@@ -402,13 +403,13 @@ class HeadacheLogLayout(BoxLayout):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.orientation="vertical"
-        self.padding=5
+        self.padding=dp(5)
         with self.canvas.before:
             Color(*self.bg_color)
             self.rect=Rectangle(size=self.size, pos=self.pos)
         self.bind(size=self._update_rect, pos=self._update_rect)    
 #---------------------------------------境界線border---------------------------------------
-        border_frame=Widget(size_hint_y=None, height=1)
+        border_frame=Widget(size_hint_y=None, height=dp(1))
         with border_frame.canvas:
             Color(*self.fg_color)
             self.border_rect=Rectangle(size=border_frame.size, pos=border_frame.pos)    
@@ -417,33 +418,33 @@ class HeadacheLogLayout(BoxLayout):
         dt_layout=BoxLayout(
             orientation="horizontal", 
             size_hint_y=None, 
-            height=55, 
-            padding=(0, 3, 0, 0), 
+            height=dp(55), 
+            padding=(0, dp(3), 0, 0), 
         )
         dt_label=Label(
             text="日時", 
-            font_size="12px", 
+            font_size=dp(12), 
             color=self.fg_color, 
             halign="left", padding=0, 
             size_hint=(None, 1), 
-            width=100, 
+            width=dp(100), 
         )
         dt_layout.add_widget(dt_label)
         dt_right_frame=BoxLayout(orientation="vertical")
         dt_term_frame=BoxLayout(
             orientation="horizontal", 
             size_hint=(None, 0.5), 
-            size=(300, 25), 
-            padding=(30, 0), 
-            spacing=5, 
+            size=(dp(300), dp(25)), 
+            padding=(dp(30), 0), 
+            spacing=dp(5), 
             pos_hint={"center_x": 0.5}, 
         )
         self.dt_date_entry=TextInput(
             multiline=False, 
-            font_size="12px", 
-            padding=(0, 3, 0, 0), 
+            font_size=dp(12), 
+            padding=(0, dp(3), 0, 0), 
             size_hint=(None, None), 
-            size=(100, 25), 
+            size=(dp(100), dp(25)), 
             halign="center", 
             foreground_color=self.fg_color, 
             background_color=self.bg_color, 
@@ -453,10 +454,10 @@ class HeadacheLogLayout(BoxLayout):
         self.dt_time_entry=TextInput(
             multiline=False, 
             readonly=True, 
-            font_size="12px", 
-            padding=(0, 3, 0, 0), 
+            font_size=dp(12), 
+            padding=(0, dp(3), 0, 0), 
             size_hint=(None, None), 
-            size=(100, 25), 
+            size=(dp(100), dp(25)), 
             halign="center", 
             foreground_color=self.fg_color, 
             background_color=self.bg_color, 
@@ -465,26 +466,26 @@ class HeadacheLogLayout(BoxLayout):
         dt_scales_frame=BoxLayout(
             orientation="horizontal", 
             size_hint=(None, 0.5), 
-            size=(300, 25), 
-            padding=(17, 0), 
-            spacing=6, 
+            size=(dp(300), dp(25)), 
+            padding=(dp(17), 0), 
+            spacing=dp(6), 
             pos_hint={"center_x": 0.5}, 
         )
         self.dt_date_label=Label(
             text=str(f"{0} "), 
-            font_size="12px", 
+            font_size=dp(12), 
             color=self.fg_color, 
             size_hint_x=None, 
-            width=7, 
+            width=dp(7), 
         )
         self.dt_date_range=Slider(
             min=-7, 
             max=0, 
             value=0, 
-            cursor_height=15, 
-            cursor_width=15, 
+            cursor_height=dp(15), 
+            cursor_width=dp(15), 
             size_hint_x=None, 
-            width=100, 
+            width=dp(100), 
             padding=0, 
         )
         self.dt_date_range.bind(value=self.update_dt_date)
@@ -492,10 +493,10 @@ class HeadacheLogLayout(BoxLayout):
             min=0, 
             max=23, 
             value=int(f"{self.now:%H}"), 
-            cursor_height=15, 
-            cursor_width=15, 
+            cursor_height=dp(15), 
+            cursor_width=dp(15), 
             size_hint_x=None, 
-            width=100, 
+            width=dp(100), 
             padding=0, 
         )
         self.dt_time_range.bind(value=self.update_dt_time)        
@@ -509,7 +510,7 @@ class HeadacheLogLayout(BoxLayout):
         dt_layout.add_widget(dt_right_frame)
         self.add_widget(dt_layout)
 #---------------------------------------境界線border---------------------------------------
-        border_frame2=Widget(size_hint_y=None, height=1)
+        border_frame2=Widget(size_hint_y=None, height=dp(1))
         with border_frame2.canvas:
             Color(*self.fg_color)
             self.border_rect2=Rectangle(size=border_frame2.size)    
@@ -518,22 +519,22 @@ class HeadacheLogLayout(BoxLayout):
         location_layout=BoxLayout(
             orientation="horizontal", 
             size_hint_y=None, 
-            height=45, 
-            padding=(0, 10, 35, 0), 
+            height=dp(45), 
+            padding=(0, dp(10), dp(35), 0), 
         )        
         location_label=Label(
             text="場所", 
-            font_size="12px", 
+            font_size=dp(12), 
             color=self.fg_color, 
             halign="left", 
             padding=0, 
             size_hint=(None, 1), 
-            width=100, 
+            width=dp(100), 
         )
         location_layout.add_widget(location_label)
         location_spinner_wrapper=BoxLayout(
             orientation="horizontal", 
-            padding=(0, 10, 0, 0), 
+            padding=(0, dp(10), 0, 0), 
         )
         location_spinner_wrapper=RelativeLayout()
         self.combo_var_value=self.location_name_list[0]
@@ -541,9 +542,9 @@ class HeadacheLogLayout(BoxLayout):
             text=self.combo_var_value, 
             values=self.location_name_list, 
             size_hint=(None, None), 
-            size=(200, 35), 
+            size=(dp(200), dp(35)), 
             pos_hint={"center_x": 0.5}, 
-            font_size="12px", 
+            font_size=dp(12), 
         )
         self.location_spinner.color=self.fg_color
         self.location_spinner.background_color=self.bg_color
@@ -551,7 +552,7 @@ class HeadacheLogLayout(BoxLayout):
         location_layout.add_widget(location_spinner_wrapper)
         self.add_widget(location_layout)
 #---------------------------------------境界線border---------------------------------------
-        border_frame3=Widget(size_hint_y=None, height=1)
+        border_frame3=Widget(size_hint_y=None, height=dp(1))
         with border_frame3.canvas:
             Color(*self.fg_color)
             self.border_rect3=Rectangle(size=border_frame3.size)
@@ -560,17 +561,17 @@ class HeadacheLogLayout(BoxLayout):
         headache_layout=BoxLayout(
             orientation="horizontal", 
             size_hint_y=None, 
-            height=55, 
-            padding=(0, 3, 0, 0), 
+            height=dp(55), 
+            padding=(0, dp(3), 0, 0), 
         )
         headache_label=Label(
             text="頭痛レベル", 
-            font_size="12px", 
+            font_size=dp(12), 
             color=self.fg_color, 
             halign="left", 
             padding=0, 
             size_hint=(None, 1), 
-            width=100, 
+            width=dp(100), 
         )
         headache_layout.add_widget(headache_label)
         headache_right_outerframe=AnchorLayout(
@@ -580,15 +581,15 @@ class HeadacheLogLayout(BoxLayout):
         headache_right_frame=BoxLayout(
             orientation="horizontal", 
             size_hint=(None, None), 
-            size=(245, 25), 
+            size=(dp(245), dp(25)), 
         )
         self.headache_entry=TextInput(
             multiline=False, 
             readonly=True, 
-            font_size="12px", 
-            padding=(0, 3, 0, 0), 
+            font_size=dp(12), 
+            padding=(0, dp(3), 0, 0), 
             size_hint=(None, None), 
-            size=(20, 25), 
+            size=(dp(20), dp(25)), 
             halign="center", 
             foreground_color=self.fg_color, 
             background_color=self.bg_color, 
@@ -596,28 +597,28 @@ class HeadacheLogLayout(BoxLayout):
         self.headache_entry.text=f"3"
         self.headache_good_label=Label(
             text="  good: 0", 
-            font_size="12px", 
+            font_size=dp(12), 
             color=self.fg_color, 
             size_hint_x=None, 
-            width=50, 
+            width=dp(50), 
         )
         self.headache_range=Slider(
             min=0, 
             max=5.9, 
             value=3, 
-            cursor_height=15, 
-            cursor_width=15, 
+            cursor_height=dp(15), 
+            cursor_width=dp(15), 
             size_hint_x=None, 
-            width=100, 
-            padding=10, 
+            width=dp(100), 
+            padding=dp(10), 
         )
         self.headache_range.bind(value=self.update_headache)
         self.headache_bad_label=Label(
             text="wrong: 5", 
-            font_size="12px", 
+            font_size=dp(12), 
             color=self.fg_color, 
             size_hint_x=None, 
-            width=50, 
+            width=dp(50), 
         )
         headache_right_frame.add_widget(self.headache_entry)
         headache_right_frame.add_widget(self.headache_good_label)
@@ -627,7 +628,7 @@ class HeadacheLogLayout(BoxLayout):
         headache_layout.add_widget(headache_right_outerframe)
         self.add_widget(headache_layout)
 #---------------------------------------境界線border---------------------------------------
-        border_frame4=Widget(size_hint_y=None, height=1)
+        border_frame4=Widget(size_hint_y=None, height=dp(1))
         with border_frame4.canvas:
             Color(*self.fg_color)
             self.border_rect4=Rectangle(size=border_frame4.size)
@@ -636,18 +637,18 @@ class HeadacheLogLayout(BoxLayout):
         entry_layout=BoxLayout(
             orientation="vertical", 
             size_hint_y=None, 
-            height=55, 
-            padding=(0, 10, 0, 0), 
+            height=dp(55), 
+            padding=(0, dp(10), 0, 0), 
         )
         self.entry_button=Button(
             text="登録", 
-            font_size="12px", 
+            font_size=dp(12), 
             background_normal="", 
             background_down="",
             background_color=(1, 1, 1, 0.1), 
             color=self.fg_color, 
             size_hint=(None, None), 
-            size=(150, 35), 
+            size=(dp(150), dp(35)), 
             pos_hint={"center_x": 0.5},
             halign="center", 
             valign="middle", 
@@ -657,10 +658,10 @@ class HeadacheLogLayout(BoxLayout):
 
         self.err_text=Label(
             text="", 
-            font_size="10px", 
+            font_size=dp(10), 
             color=self.er_color, 
             size_hint_x=None, 
-            width=150, 
+            width=dp(150), 
             pos_hint={"center_x": 0.5}, 
         )
         entry_layout.add_widget(self.err_text)
@@ -687,10 +688,10 @@ class HeadacheLogLayout(BoxLayout):
 #---------------------------------------表table---------------------------------------
         self.table_layout=ScrollView(
             size_hint_y=None, 
-            height=100, 
+            height=dp(100), 
             do_scroll_x=False, 
         )
-        self.inner_grid=GridLayout(cols=1, spacing=5, size_hint_y=None)
+        self.inner_grid=GridLayout(cols=1, spacing=dp(5), size_hint_y=None)
         self.inner_grid.bind(minimum_height=self.inner_grid.setter("height"))
         Builder.load_file("assets/my_layout.kv")
         df_to_process=self.stamp_df.iloc[:10] if len(self.stamp_df)>=11 else self.stamp_df
@@ -700,14 +701,14 @@ class HeadacheLogLayout(BoxLayout):
 #---------------------------------------グラフgraph---------------------------------------
         self.wrap_graph_layout=ScrollView()
         self.graph_layout=BoxLayout(
-            size_hint=(None, None) if Window.width<450 else (1, None), 
+            #size_hint=(None, None) if Window.width<450 else (1, None), 
             orientation="vertical", 
         )
         self.graph_layout.bind(minimum_width=self.graph_layout.setter("width"))
         self.graph_layout.bind(minimum_height=self.graph_layout.setter("height"))
         self.wrap_graph_layout.add_widget(self.graph_layout)
         self.add_widget(self.wrap_graph_layout)
-        self.status_label=Label(text="", font_size="30")
+        self.status_label=Label(text="", font_size=dp(30))
         self.texts=["", ".", "..", "..."]
         self.current_index=0
         self.event=None
@@ -717,22 +718,22 @@ class HeadacheLogLayout(BoxLayout):
         self.rect.size=instance.size
         self.border_rect.pos=(
             instance.pos[0], 
-            instance.pos[1]+instance.size[1]-5
+            instance.pos[1]+instance.size[1]-dp(5)
         )
         self.border_rect.size=(instance.size[0], 1)
         self.border_rect2.pos=(
             instance.pos[0], 
-            instance.pos[1]+instance.size[1]-60
+            instance.pos[1]+instance.size[1]-dp(60)
         )
         self.border_rect2.size=(instance.size[0], 1)
         self.border_rect3.pos=(
             instance.pos[0], 
-            instance.pos[1]+instance.size[1]-115
+            instance.pos[1]+instance.size[1]-dp(115)
         )
         self.border_rect3.size=(instance.size[0], 1)
         self.border_rect4.pos=(
             instance.pos[0], 
-            instance.pos[1]+instance.size[1]-160
+            instance.pos[1]+instance.size[1]-dp(160)
         )
         self.border_rect4.size=(instance.size[0], 1)
         self.graph_layout.size_hint=(None, None) if Window.width<450 else (1, None)
@@ -936,47 +937,47 @@ Lv: {int(self.headache_range.value)}に変更しますか?"""
         self.graph_layout.clear_widgets()
         sample_size_msg_label=Label(
             text=msg, 
-            font_size="12px", 
+            font_size=dp(12), 
             color=self.fg_color, 
             padding=0, 
             size_hint=(1, None), 
-            height=10, 
+            height=dp(10), 
         )
         self.graph_layout.add_widget(sample_size_msg_label)
         if flg:
             canvas=FigureCanvasKivyAgg(img_bytes)
             canvas.size_hint=(None, None)
-            canvas.size=(420, 260)
+            canvas.size=(dp(420), dp(260))
             canvas.pos_hint={"center_x": 0.5}
             self.graph_layout.add_widget(canvas)
         else:
             no_graph=BoxLayout(
                 orientation="vertical", 
                 size_hint_y=None, 
-                height=150, 
+                height=dp(150), 
             )
             no_graph.add_widget(
                 Label(
                     text="No Graph", 
-                    font_size="40px", 
+                    font_size=dp(40), 
                     color=self.fg_color, 
                     size_hint_y=None, 
-                    height=80, 
+                    height=dp(80), 
                 ), 
             )
             no_graph.add_widget(
                 Label(
                     text="Hint: 体調がいい時は頭痛レベル0で登録", 
-                    font_size="10px", 
+                    font_size=dp(10), 
                     color=self.fg_color, 
                     size_hint_y=None, 
-                    height=40, 
+                    height=dp(40), 
                 ), 
             )
             self.graph_layout.add_widget(no_graph)
         canvas2=FigureCanvasKivyAgg(self.fig2)
         canvas2.size_hint_y=None
-        canvas2.height=400
+        canvas2.height=dp(400)
         self.graph_layout.add_widget(canvas2)
         df_to_process=self.stamp_df.iloc[:10] if len(self.stamp_df)>=11 else self.stamp_df
         self.update_table(df_to_process)
