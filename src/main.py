@@ -4,6 +4,7 @@ if not hasattr(np, 'bool'):
     np.float=float
     np.int=int
     np.complex=complex
+    np.object=object
 
 import kivy
 from kivymd.app import MDApp
